@@ -29,7 +29,7 @@ body {
   margin-bottom: 20px;
 }
 
-.keyboard__keys {
+.keyboard__keys_wrapper {
   width: 700px;
   display: flex;
   flex-wrap: wrap;
@@ -40,7 +40,7 @@ body {
   background-color: rgb(218, 218, 218);
 }
 
-.key {
+.keyboard__key {
   width: 40px;
   height: 40px;
   background-color: rgb(177, 175, 175);
@@ -48,46 +48,63 @@ body {
   transition: all .1s ease-in-out;
 }
 
-.key:hover {
+.keyboard__key:hover {
   background-color: aqua;
   cursor: pointer;
 }
 
-.key:active {
+.keyboard__key:active {
   transform: scale(0.95);
 }
 
-.space:active {
+.Space:active {
   transform: scale(0.985);
 }
 
-.backspace,
-.tab,
-.del,
-.shift,
-.caps,
-.ctrl,
-.alt,
-.win,
-.enter,
-.arrow {
+.Backspace,
+.Tab,
+.Delete,
+.ShiftRight,
+.ShiftLeft,
+.CapsLock,
+.ControlRight,
+.ControlLeft,
+.AltRight,
+.AltLeft,
+.MetaLeft,
+.Enter,
+.ArrowUp,
+.ArrowRight,
+.ArrowLeft,
+.ArrowDown {
   background-color: rgb(99, 98, 98);
 }
-.backspace {
+
+.active {
+  transform: scale(0.95);
+  background-color: aqua;
+}
+
+.Backspace {
   width: 102px;
 }
 
-.del,
-.tab {
+.Delete,
+.Tab {
   width: 49px;
 }
 
-.caps,
-.enter,
-.shift {
+.CapsLock,
+.Enter,
+.ShiftRight,
+.ShiftLeft {
   width: 94px;
 }
 
-.space {
-  width: 328px;
+.ControlRight,
+.ControlLeft {
+  width: 50px;
+}
+.Space {
+  width: 308px;
 }
