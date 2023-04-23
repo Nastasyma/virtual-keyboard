@@ -42,7 +42,7 @@ function createBodyTemplate() {
   desc.textContent = 'Клавиатура создана в операционной системе Windows';
   const keyboardLang = document.createElement('p');
   keyboardLang.classList.add('footer__lang');
-  keyboardLang.textContent = 'Для переключения языка комбинация: left shift + left alt';
+  keyboardLang.textContent = 'Для переключения языка комбинация: left ctrl + left alt';
   footer.appendChild(desc);
   footer.appendChild(keyboardLang);
   body.append(footer);
@@ -62,19 +62,22 @@ function createKeyboard(template) {
     keyboardBtns.append(key);
   }
 }
-createKeyboard(keyboardEn);
 
 document.addEventListener('keydown', (e) => {
   keyPressed.push(e.code);
-  if (e.code === 'ShiftLeft' && keyPressed.includes('AltLeft')) {
+  if (e.code === 'AltLeft' && keyPressed.includes('ControlLeft')) {
     if (lang === 'en') {
       lang = 'ru';
       createKeyboard(keyboardRu);
+      localStorage.setItem('language', 'ru');
     } else {
       lang = 'en';
       createKeyboard(keyboardEn);
+      localStorage.setItem('language', 'en');
     }
   }
+  // document.querySelector(`.${e.code}`).classList.add('active');
+
   const keyBtn = document.querySelectorAll('.keyboard__key');
   for (let i = 0; i < keyBtn.length; i += 1) {
     if (keyBtn[i].classList.contains(`${e.code}`)) {
@@ -89,5 +92,17 @@ document.addEventListener('keyup', (e) => {
     if (keyBtn[i].classList.contains(`${e.code}`)) {
       keyBtn[i].classList.remove('active');
     }
+  }
+});
+
+window.addEventListener('DOMContentLoaded', () => {
+  if (localStorage.getItem('language') === 'en') {
+    lang = 'en';
+    createKeyboard(keyboardEn);
+  } else if (localStorage.getItem('language') === 'ru') {
+    lang = 'ru';
+    createKeyboard(keyboardRu);
+  } else {
+    createKeyboard(keyboardEn);
   }
 });
