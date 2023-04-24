@@ -1,6 +1,8 @@
 import keyboardKeys from './keyboardKeys.js';
 import keyboardEn from './keyboardEn.js';
+import keyboardEnShift from './keyboardEnShift.js';
 import keyboardRu from './keyboardRu.js';
+import keyboardRuShift from './keyboardRuShift.js';
 
 // document.onkeydown = (e) => {
 //   console.log('e.key:', e.key);
@@ -12,7 +14,8 @@ import keyboardRu from './keyboardRu.js';
 // });
 
 let lang = 'en';
-const keyPressed = [];
+let isCtrlPressed = false;
+let isAltPressed = false;
 
 const body = document.querySelector('body');
 
@@ -50,7 +53,7 @@ function createBodyTemplate() {
 createBodyTemplate();
 
 const keyboardBtns = document.querySelector('.keyboard__keys_wrapper');
-// const keyboardTextarea = document.querySelector('.keyboard__textarea');
+const keyboardTextarea = document.querySelector('.keyboard__textarea');
 
 function createKeyboard(template) {
   keyboardBtns.innerHTML = '';
@@ -63,45 +66,92 @@ function createKeyboard(template) {
   }
 }
 
+function changeLanguage() {
+  if (lang === 'en') {
+    createKeyboard(keyboardEn);
+  } else if (lang === 'ru') {
+    createKeyboard(keyboardRu);
+  }
+}
+
 document.addEventListener('keydown', (e) => {
-  keyPressed.push(e.code);
-  if (e.code === 'AltLeft' && keyPressed.includes('ControlLeft')) {
+  e.preventDefault();
+  keyboardTextarea.focus();
+
+  if (e.code === 'ControlLeft') {
+    isCtrlPressed = true;
+  } else if (e.code === 'AltLeft') {
+    isAltPressed = true;
+  } else {
+    isCtrlPressed = false;
+    isAltPressed = false;
+  }
+
+  if (isCtrlPressed && isAltPressed) {
     if (lang === 'en') {
       lang = 'ru';
-      createKeyboard(keyboardRu);
+      changeLanguage();
+      document.querySelector('.ControlLeft').classList.add('active');
+      document.querySelector('.AltLeft').classList.add('active');
       localStorage.setItem('language', 'ru');
     } else {
       lang = 'en';
-      createKeyboard(keyboardEn);
+      changeLanguage();
       localStorage.setItem('language', 'en');
     }
+    isCtrlPressed = false;
+    isAltPressed = false;
   }
-  // document.querySelector(`.${e.code}`).classList.add('active');
 
-  const keyBtn = document.querySelectorAll('.keyboard__key');
-  for (let i = 0; i < keyBtn.length; i += 1) {
-    if (keyBtn[i].classList.contains(`${e.code}`)) {
-      keyBtn[i].classList.add('active');
+  if (e.key === 'Shift') {
+    if (lang === 'en') {
+      createKeyboard(keyboardEnShift);
+    } else if (lang === 'ru') {
+      createKeyboard(keyboardRuShift);
     }
   }
+
+  // document.querySelector(`.keyboard__key.${e.code}`).classList.add('active');
+
+  document.querySelectorAll('.keyboard__key').forEach((el) => {
+    if (el.classList.contains(`${e.code}`)) {
+      el.classList.add('active');
+      if (e.key === 'Space') {
+        keyboardTextarea.value += ' ';
+      } else if (e.key === 'Tab') {
+        keyboardTextarea.value += '    ';
+      } else if (e.key === 'Enter') {
+        keyboardTextarea.value += '\n';
+      } else if (e.key === 'Backspace') {
+        keyboardTextarea.value = keyboardTextarea.value.slice(0, keyboardTextarea.value.length - 1);
+      } else if (e.key === 'Alt' || e.key === 'Control' || e.key === 'Meta' || e.key === 'Shift' || e.key === 'CapsLock' || e.key === 'Delete') {
+        keyboardTextarea.value += '';
+      } else {
+        keyboardTextarea.value += el.textContent;
+      }
+      keyboardTextarea.selectionStart = keyboardTextarea.value.length;
+    }
+  });
 });
+
 document.addEventListener('keyup', (e) => {
-  keyPressed.length = 0;
-  const keyBtn = document.querySelectorAll('.keyboard__key');
-  for (let i = 0; i < keyBtn.length; i += 1) {
-    if (keyBtn[i].classList.contains(`${e.code}`)) {
-      keyBtn[i].classList.remove('active');
+  // document.querySelector(`.keyboard__key.${e.code}`).classList.remove('active');
+  document.querySelectorAll('.keyboard__key').forEach((el) => {
+    if (el.classList.contains(`${e.code}`)) {
+      el.classList.remove('active');
     }
-  }
+  });
+
+  changeLanguage();
 });
 
 window.addEventListener('DOMContentLoaded', () => {
   if (localStorage.getItem('language') === 'en') {
     lang = 'en';
-    createKeyboard(keyboardEn);
+    changeLanguage();
   } else if (localStorage.getItem('language') === 'ru') {
     lang = 'ru';
-    createKeyboard(keyboardRu);
+    changeLanguage();
   } else {
     createKeyboard(keyboardEn);
   }
