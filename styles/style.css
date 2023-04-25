@@ -45,13 +45,17 @@ body {
 .keyboard__key {
   width: 40px;
   height: 40px;
-  background-color: rgb(177, 175, 175);
+  box-shadow: 0 0 2px #000000;
+  text-shadow: 1px 1px 3px black, 0 0 4px black;
+  color: white;
+  /* background-color: rgb(134, 132, 132); */
+  background-image: linear-gradient(-180deg, rgb(134, 132, 132) 0%, rgb(97, 96, 96) 100%);
   border-radius: 5px;
   transition: all .1s ease-in-out;
 }
 
 .keyboard__key:hover {
-  background-color: aqua;
+  background-image: linear-gradient(-180deg, rgb(54, 201, 66) 0%, rgb(46, 167, 56) 100%);
   cursor: pointer;
 }
 
@@ -79,16 +83,17 @@ body {
 .ArrowRight,
 .ArrowLeft,
 .ArrowDown {
-  background-color: rgb(99, 98, 98);
+  /* background-color: rgb(54, 54, 54); */
+  background-image: linear-gradient(-180deg, rgb(94, 94, 94) 0%, rgb(54, 54, 54) 100%);
 }
 
 .active {
   transform: scale(0.95);
-  background-color: aqua;
+  background-image: linear-gradient(-180deg, rgb(54, 201, 66) 0%, rgb(46, 167, 56) 100%);
 }
 
 .caps_active {
-  background-color: aqua;
+  background-image: linear-gradient(-180deg, rgb(54, 201, 66) 0%, rgb(46, 167, 56) 100%);
 }
 
 .Backspace {
