@@ -19,9 +19,9 @@ let isAltPressed = false;
 let isShiftPressed = false;
 let isCapsPressed = false;
 
-const body = document.querySelector('body');
+const { body } = document;
 
-function createBodyTemplate() {
+const createBodyTemplate = () => {
   const header = document.createElement('header');
   header.classList.add('header');
   const h1 = document.createElement('h1');
@@ -51,41 +51,45 @@ function createBodyTemplate() {
   footer.appendChild(desc);
   footer.appendChild(keyboardLang);
   body.append(footer);
-}
+};
 createBodyTemplate();
 
 const keyboardBtns = document.querySelector('.keyboard__keys_wrapper');
 const textarea = document.querySelector('.keyboard__textarea');
 
-function createKeyButtons() {
+const createKeyButtons = () => {
   for (let i = 0; i < keyboardKeys.length; i += 1) {
     const key = document.createElement('button');
     key.classList.add('keyboard__key');
     key.classList.add(`${keyboardKeys[i]}`);
     keyboardBtns.append(key);
   }
-}
+};
 createKeyButtons();
 
 const keyBtn = document.querySelectorAll('.keyboard__key');
 const capsLock = document.querySelector('.CapsLock');
+const shiftLeft = document.querySelector('.ShiftLeft');
+const shiftRight = document.querySelector('.ShiftRight');
+const ctrlLeft = document.querySelector('.ControlLeft');
+const altLeft = document.querySelector('.AltLeft');
 
-function createKeyboard(template) {
+const createKeyboard = (template) => {
   for (let i = 0; i < keyBtn.length; i += 1) {
     keyBtn[i].textContent = '';
     keyBtn[i].textContent = template[i];
   }
-}
+};
 
-function changeLanguage() {
+const changeLanguage = () => {
   if (lang === 'en') {
     createKeyboard(keyboardEn);
   } else if (lang === 'ru') {
     createKeyboard(keyboardRu);
   }
-}
+};
 
-function checkCursor(text) {
+const checkCursor = (text) => {
   const start = textarea.selectionStart;
   const end = textarea.selectionEnd;
   textarea.value = textarea.value.substring(0, start) + text + textarea.value.substring(end);
@@ -94,9 +98,9 @@ function checkCursor(text) {
   } else {
     textarea.selectionEnd = end;
   }
-}
+};
 
-function pressBackspace() {
+const pressBackspace = () => {
   const start = textarea.selectionStart;
   const end = textarea.selectionEnd;
   if (start > 0) {
@@ -105,9 +109,9 @@ function pressBackspace() {
     textarea.selectionStart = start - 1;
     textarea.selectionEnd = end - 1;
   }
-}
+};
 
-function pressDel() {
+const pressDel = () => {
   const start = textarea.selectionStart;
   const end = textarea.selectionEnd;
   if (start < textarea.value.length) {
@@ -116,9 +120,9 @@ function pressDel() {
     textarea.selectionStart = start;
     textarea.selectionEnd = end;
   }
-}
+};
 
-function pressCapsLock() {
+const pressCapsLock = () => {
   if (isCapsPressed) {
     if (lang === 'en') {
       createKeyboard(keyboardEn);
@@ -138,9 +142,9 @@ function pressCapsLock() {
     }
     isCapsPressed = true;
   }
-}
+};
 
-function pressFnBtn(button) {
+const pressFnBtn = (button) => {
   if (button === 'Tab') {
     checkCursor('    ');
   } else if (button === 'Enter') {
@@ -154,9 +158,9 @@ function pressFnBtn(button) {
   } else {
     checkCursor(button);
   }
-}
+};
 
-function pressKey() {
+const pressKey = () => {
   keyBtn.forEach((el) => {
     el.addEventListener('click', () => {
       textarea.focus();
@@ -167,8 +171,58 @@ function pressKey() {
       }
     });
   });
-}
+};
 pressKey();
+
+const pressShift = () => {
+  if (isShiftPressed) {
+    if (isCapsPressed) {
+      if (lang === 'en') {
+        createKeyboard(keyboardEn);
+      } else if (lang === 'ru') {
+        createKeyboard(keyboardRu);
+      }
+    } else if (!isCapsPressed) {
+      if (lang === 'en') {
+        createKeyboard(keyboardEnShift);
+      } else if (lang === 'ru') {
+        createKeyboard(keyboardRuShift);
+      }
+    }
+    isShiftPressed = false;
+  }
+};
+
+const pushShift = (e) => {
+  if (e.target.textContent === 'Shift') {
+    isShiftPressed = true;
+  }
+  pressShift();
+};
+
+const releaseShift = (e) => {
+  if (e.target.textContent === 'Shift') {
+    isShiftPressed = false;
+  }
+  if (!isCapsPressed) {
+    if (lang === 'en') {
+      createKeyboard(keyboardEn);
+    } else if (lang === 'ru') {
+      createKeyboard(keyboardRu);
+    }
+  } else if (isCapsPressed) {
+    if (lang === 'en') {
+      createKeyboard(keyboardEnShift);
+    } else if (lang === 'ru') {
+      createKeyboard(keyboardRuShift);
+    }
+  }
+};
+
+shiftLeft.addEventListener('mousedown', pushShift);
+shiftLeft.addEventListener('mouseup', releaseShift);
+shiftRight.addEventListener('mousedown', pushShift);
+shiftRight.addEventListener('mouseup', releaseShift);
 
 const keyDown = (e) => {
   e.preventDefault();
@@ -189,29 +243,30 @@ const keyDown = (e) => {
   if (isCtrlPressed && isAltPressed) {
     if (lang === 'en') {
       lang = 'ru';
-      changeLanguage();
-      document.querySelector('.ControlLeft').classList.add('active');
-      document.querySelector('.AltLeft').classList.add('active');
+      if (isCapsPressed) {
+        createKeyboard(keyboardRuShift);
+      } else {
+        createKeyboard(keyboardRu);
+      }
+      ctrlLeft.classList.add('active');
+      altLeft.classList.add('active');
       localStorage.setItem('language', 'ru');
     } else {
       lang = 'en';
-      changeLanguage();
-      document.querySelector('.ControlLeft').classList.add('active');
-      document.querySelector('.AltLeft').classList.add('active');
+      if (isCapsPressed) {
+        createKeyboard(keyboardEnShift);
+      } else {
+        createKeyboard(keyboardEn);
+      }
+      ctrlLeft.classList.add('active');
+      altLeft.classList.add('active');
       localStorage.setItem('language', 'en');
     }
     isCtrlPressed = false;
     isAltPressed = false;
   }
 
-  if (isShiftPressed) {
-    if (lang === 'en') {
-      createKeyboard(keyboardEnShift);
-    } else if (lang === 'ru') {
-      createKeyboard(keyboardRuShift);
-    }
-    isShiftPressed = false;
-  }
+  pressShift();
 
   keyBtn.forEach((el) => {
     if (el.classList.contains(`${e.code}`)) {
@@ -235,7 +290,19 @@ const keyUp = (e) => {
   });
 
   if (e.key === 'Shift') {
-    changeLanguage();
+    if (!isCapsPressed) {
+      if (lang === 'en') {
+        createKeyboard(keyboardEn);
+      } else if (lang === 'ru') {
+        createKeyboard(keyboardRu);
+      }
+    } else if (isCapsPressed) {
+      if (lang === 'en') {
+        createKeyboard(keyboardEnShift);
+      } else if (lang === 'ru') {
+        createKeyboard(keyboardRuShift);
+      }
+    }
   }
 };
 
