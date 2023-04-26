@@ -13,7 +13,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  /* background: url('../assets/bg.jpg') center/cover no-repeat; */
+  background: url('../assets/images/bg.jpeg') center/cover no-repeat;
 }
 
 .header,
@@ -29,6 +29,8 @@ body {
   margin-bottom: 20px;
   overflow: auto;
   outline: none;
+  resize: none;
+  border-radius: 10px;
 }
 
 .keyboard__keys_wrapper {
@@ -39,7 +41,8 @@ body {
   margin-bottom: 20px;
   padding: 5px;
   border: 1px solid black;
-  background-color: rgb(218, 218, 218);
+  border-radius: 10px;
+  background-color: rgb(175, 168, 168);
 }
 
 .keyboard__key {
