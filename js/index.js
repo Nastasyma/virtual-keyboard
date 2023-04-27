@@ -71,8 +71,6 @@ const keyBtn = document.querySelectorAll('.keyboard__key');
 const capsLock = document.querySelector('.CapsLock');
 const shiftLeft = document.querySelector('.ShiftLeft');
 const shiftRight = document.querySelector('.ShiftRight');
-const ctrlLeft = document.querySelector('.ControlLeft');
-const altLeft = document.querySelector('.AltLeft');
 
 const createKeyboard = (template) => {
   for (let i = 0; i < keyBtn.length; i += 1) {
@@ -170,6 +168,12 @@ const pressKey = () => {
         pressCapsLock();
       }
     });
+    el.addEventListener('mousedown', () => {
+      el.classList.add('active');
+    });
+    el.addEventListener('mouseup', () => {
+      el.classList.remove('active');
+    });
   });
 };
 pressKey();
@@ -225,9 +229,10 @@ shiftRight.addEventListener('mousedown', pushShift);
 shiftRight.addEventListener('mouseup', releaseShift);
 
 const keyDown = (e) => {
-  e.preventDefault();
+  if (e.key !== 'F5' && e.key !== 'F12') {
+    e.preventDefault();
+  }
   textarea.focus();
-
   if (e.code === 'ControlLeft') {
     isCtrlPressed = true;
   } else if (e.code === 'AltLeft') {
@@ -248,8 +253,6 @@ const keyDown = (e) => {
       } else {
         createKeyboard(keyboardRu);
       }
-      ctrlLeft.classList.add('active');
-      altLeft.classList.add('active');
       localStorage.setItem('language', 'ru');
     } else {
       lang = 'en';
@@ -258,8 +261,6 @@ const keyDown = (e) => {
       } else {
         createKeyboard(keyboardEn);
       }
-      ctrlLeft.classList.add('active');
-      altLeft.classList.add('active');
       localStorage.setItem('language', 'en');
     }
     isCtrlPressed = false;
