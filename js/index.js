@@ -151,7 +151,7 @@ const pressFnBtn = (button) => {
     pressBackspace();
   } else if (button === 'Del') {
     pressDel();
-  } else if (button === 'Alt' || button === 'Ctrl' || button === 'Win' || button === 'Shift' || button === 'CapsLock') {
+  } else if (button === 'Alt' || button === 'Ctrl' || button === 'Win' || button === 'Shift' || button === 'CapsLock' || button === 'EN' || button === 'RU') {
     textarea.value += '';
   } else {
     checkCursor(button);
@@ -164,8 +164,24 @@ const pressKey = () => {
       textarea.focus();
       const button = el.textContent;
       pressFnBtn(button);
-      if (el.textContent === 'CapsLock') {
+      if (button === 'CapsLock') {
         pressCapsLock();
+      } else if (button === 'EN') {
+        lang = 'ru';
+        if (isCapsPressed) {
+          createKeyboard(keyboardRuShift);
+        } else {
+          createKeyboard(keyboardRu);
+        }
+        localStorage.setItem('language', 'ru');
+      } else if (button === 'RU') {
+        lang = 'en';
+        if (isCapsPressed) {
+          createKeyboard(keyboardEnShift);
+        } else {
+          createKeyboard(keyboardEn);
+        }
+        localStorage.setItem('language', 'en');
       }
     });
     el.addEventListener('mousedown', () => {
