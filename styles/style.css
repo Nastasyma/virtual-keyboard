@@ -1,0 +1,123 @@
+html {
+  scroll-behavior: smooth;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  font-weight: 700;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: url('../assets/images/bg.jpeg') center/cover no-repeat;
+}
+
+.header,
+.keyboard,
+.footer {
+  margin: 0 auto;
+}
+
+.keyboard__textarea {
+  width: 700px;
+  height: 200px;
+  padding: 10px;
+  margin-bottom: 20px;
+  overflow: auto;
+  outline: none;
+  resize: none;
+  border-radius: 10px;
+}
+
+.keyboard__keys_wrapper {
+  width: 700px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-bottom: 20px;
+  padding: 5px;
+  border: 1px solid black;
+  border-radius: 10px;
+  background-color: rgb(175, 168, 168);
+}
+
+.keyboard__key {
+  width: 40px;
+  height: 40px;
+  box-shadow: 0 0 2px #000000;
+  text-shadow: 1px 1px 3px black, 0 0 4px black;
+  color: white;
+  background-image: linear-gradient(-180deg, rgb(134, 132, 132) 0%, rgb(97, 96, 96) 100%);
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all .2s ease-in-out;
+}
+
+.keyboard__key:hover {
+  background-image: linear-gradient(-180deg, rgb(100, 231, 111) 0%, rgb(87, 168, 93) 100%);
+}
+
+.keyboard__key:active {
+  transform: scale(0.95);
+  background-image: linear-gradient(-180deg, rgb(54, 201, 66) 0%, rgb(46, 167, 56) 100%);
+}
+
+.Space:active {
+  transform: scale(0.985);
+}
+
+.Backspace,
+.Tab,
+.Delete,
+.ShiftRight,
+.ShiftLeft,
+.CapsLock,
+.ControlRight,
+.ControlLeft,
+.AltRight,
+.AltLeft,
+.MetaLeft,
+.Enter,
+.ArrowUp,
+.ArrowRight,
+.ArrowLeft,
+.ArrowDown {
+  background-image: linear-gradient(-180deg, rgb(94, 94, 94) 0%, rgb(54, 54, 54) 100%);
+}
+
+.active {
+  transform: scale(0.95);
+  background-image: linear-gradient(-180deg, rgb(54, 201, 66) 0%, rgb(46, 167, 56) 100%);
+}
+
+.caps_active {
+  background-image: linear-gradient(-180deg, rgb(54, 201, 66) 0%, rgb(46, 167, 56) 100%);
+}
+
+.Backspace {
+  width: 102px;
+}
+
+.Delete,
+.Tab {
+  width: 49px;
+}
+
+.CapsLock,
+.Enter,
+.ShiftRight,
+.ShiftLeft {
+  width: 94px;
+}
+
+.ControlRight,
+.ControlLeft {
+  width: 50px;
+}
+.Space {
+  width: 308px;
+}
