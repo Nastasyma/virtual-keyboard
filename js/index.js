@@ -4,15 +4,6 @@ import keyboardEnShift from './keyboardEnShift.js';
 import keyboardRu from './keyboardRu.js';
 import keyboardRuShift from './keyboardRuShift.js';
 
-// document.onkeydown = (e) => {
-//   console.log('e.key:', e.key);
-//   console.log('e.code:', e.code);
-// };
-
-// document.addEventListener('mousedown', (e) => {
-//   console.log(e.target);
-// });
-
 let lang = 'en';
 let isCtrlPressed = false;
 let isAltPressed = false;
@@ -144,7 +135,7 @@ const pressCapsLock = () => {
 
 const pressFnBtn = (button) => {
   if (button === 'Tab') {
-    checkCursor('    ');
+    checkCursor('\t');
   } else if (button === 'Enter') {
     checkCursor('\n');
   } else if (button === 'Back') {
